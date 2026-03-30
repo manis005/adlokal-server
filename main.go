@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+    "os"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +32,10 @@ func main() {
 	http.HandleFunc("/impression", impressionHandler)
 	http.HandleFunc("/click", clickHandler)
 
-	port := "8080"
+	port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
 	log.Println("Server running on port", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
